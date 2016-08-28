@@ -30,6 +30,7 @@ public class NiceVidsBot extends TelegramLongPollingBot {
     private final String GET_VIDEO = "Give me an awesome video!";
     private final String GET_VIDEO2 = "/find";
     private final String START = "/start";
+    private final String HELP = "/help";
     private final int startYear = 2012;
     private final int currentYear = Calendar.getInstance().get(Calendar.YEAR);
     private final int currentMonth = Calendar.getInstance().get(Calendar.MONTH);
@@ -75,17 +76,27 @@ public class NiceVidsBot extends TelegramLongPollingBot {
         SendMessage sendMessageRequest = new SendMessage();
         sendMessageRequest.setChatId(message.getChatId().toString());
         sendMessageRequest.enableMarkdown(true);
+        sendMessageRequest.setReplyMarkup(getKeyboard());
 
         String text = message.getText();
 
-        if (text.equals(START)) {
-            sendMessageRequest.setText(
-                    "Hello!\nThis is a simple bot that finds some cool videos "+
-                            "from Youtube.");
-            sendMessageRequest.setReplyMarkup(getKeyboard());
-        } else if (text.equals(GET_VIDEO) || text.equals(GET_VIDEO2)) {
-            sendMessageRequest.setText("Here is a video:\n" + getVideo());
-            sendMessageRequest.setReplyMarkup(getKeyboard());
+        switch (text) {
+            case HELP:
+            case START:
+                sendMessageRequest.setText("Hello!\n" +
+                        "This is a simple bot that finds some cool " +
+                        "videos from Youtube.\nTo get a video, simply choose '" +
+                        GET_VIDEO + "' or type " + GET_VIDEO2 + ".\n" + HELP +
+                        " is always here.");
+                break;
+            case GET_VIDEO:
+            case GET_VIDEO2:
+                sendMessageRequest.setText("Here is a video:\n" + getVideo());
+                break;
+            default:
+                sendMessageRequest.setReplyToMessageId(message.getMessageId());
+                sendMessageRequest.setText("Sorry I can't answer that.");
+                break;
         }
 
         return sendMessageRequest;
