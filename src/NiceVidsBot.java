@@ -24,8 +24,7 @@ import java.util.regex.Pattern;
 
 public class NiceVidsBot extends TelegramLongPollingBot {
     private static final String BOT_USERNAME = "NiceVidsBot";
-    private static final String BOT_TOKEN =
-            "263433733:AAFpnIOZdlGY7IxK8DFmJRRRqopQd071EjE";
+    private static final String BOT_TOKEN = "OOPPSS";
 
     private final String GET_VIDEO = "Give me an awesome video!";
     private final String GET_VIDEO2 = "/find";
